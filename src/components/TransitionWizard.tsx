@@ -64,14 +64,11 @@ const TransitionWizard = () => {
   ];
 
   const getCurrentStepData = () => {
-    return {
-      ...steps.map((step, index) => ({
-        ...step,
-        completed: index < currentStep - 1
-      }))
-    };
+    return steps.map((step, index) => ({
+      ...step,
+      completed: index < currentStep - 1,
+    }));
   };
-
   const progress = ((currentStep - 1) / (steps.length - 1)) * 100;
 
   const handleNext = () => {
