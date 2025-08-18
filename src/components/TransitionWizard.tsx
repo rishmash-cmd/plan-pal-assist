@@ -6,6 +6,7 @@ import { CheckCircle, Circle, FileSpreadsheet, AlertTriangle } from 'lucide-reac
 import ProjectDetailsStep from './wizard-steps/ProjectDetailsStep';
 import TransitionStructureStep from './wizard-steps/TransitionStructureStep';
 import RisksStep from './wizard-steps/RisksStep';
+import TransitionPlanView from './TransitionPlanView';
 import { toast } from '@/hooks/use-toast';
 import heroImage from '@/assets/transition-hero.jpg';
 
@@ -40,6 +41,7 @@ export interface FormData {
 
 const TransitionWizard = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [showPlan, setShowPlan] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     projectDetails: {
       startDate: undefined,
@@ -84,15 +86,8 @@ const TransitionWizard = () => {
   };
 
   const generateFiles = () => {
-    // Mock file generation
-    toast({
-      title: "Files Generated Successfully!",
-      description: "Transition Plan and Risk Log have been created.",
-      variant: "default"
-    });
-
-    // In a real implementation, this would generate and download actual Excel files
-    console.log('Generating files with data:', formData);
+    // Navigate to plan view instead of just showing toast
+    setShowPlan(true);
   };
 
   const handleSubmit = () => {
@@ -105,6 +100,16 @@ const TransitionWizard = () => {
       [section]: data
     }));
   };
+
+  // Show plan view if user has generated the plan
+  if (showPlan) {
+    return (
+      <TransitionPlanView 
+        formData={formData} 
+        onBack={() => setShowPlan(false)} 
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-muted">
